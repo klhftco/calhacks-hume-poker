@@ -16,13 +16,13 @@ export default function HomePage() {
 
         <div className="md:px-10 pt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
           <ModelSection name="Facial Expression" page="/face" iconClass={SmileyIcon} />
-          <ModelSection name="Speech Prosody" page="/prosody" iconClass={EarIcon} />
-          <ModelSection name="Vocal Burst" page="/burst" iconClass={MicrophoneIcon} />
-          <ModelSection name="Written Language" page="/language" iconClass={BookIcon} />
         </div>
       </div>
     </div>
   );
+  // <ModelSection name="Speech Prosody" page="/prosody" iconClass={EarIcon} />
+  // <ModelSection name="Vocal Burst" page="/burst" iconClass={MicrophoneIcon} />
+  // <ModelSection name="Written Language" page="/language" iconClass={BookIcon} />
 }
 
 type ModelSectionProps = {

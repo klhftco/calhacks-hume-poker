@@ -88,7 +88,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
   }
 
 
-  // TODO: modify onMessage to pass onto poker api call 
+  // TODO: might need to modify onMessage to pass onto poker api call 
   async function socketOnMessage(event: MessageEvent) {
     setStatus("");
     const response = JSON.parse(event.data);

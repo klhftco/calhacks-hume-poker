@@ -9,7 +9,30 @@ type TopEmotionsProps = {
 export function TopEmotions({ className, emotions, numEmotions }: TopEmotionsProps) {
   className = className || "";
 
-  // TODO: revise to output poker related metrics as well
+  // TODO: testing
+  console.log(emotions.slice(0, numEmotions));
+  const metric_emotions = ["Confusion", "Boredom", "Sadness", "Disappointment", "Concentration"];
+  const metric = emotions
+    // .sort((a: Emotion, b: Emotion) => b.score - a.score)
+    // .slice(0, numEmotions)
+    .filter(emotion => metric_emotions.includes(emotion.name))
+    .reduce(
+      (acc, emotion) => acc + emotion.score, 0
+    );
+  console.log(metric);
+  const val = (Math.round(metric * 100) / 100).toFixed(2);
+
+  const getActionMessage = () => {
+    // TODO: revise metric thresholds based on data analysis
+    if (metric > 2.5) {
+      return (<strong>Most likely action: RAISE -- Metric: {val}</strong>);
+    } else if (metric < -2.5) {
+      return (<strong>Most likely action: FOLD -- Metric: {val}</strong>);
+    } else {
+      return (<strong>Most likely action: CHECK -- Metric: {val}</strong>);
+    }
+  };
+
   return (
     <div className={`${className}`}>
       {emotions
@@ -27,7 +50,9 @@ export function TopEmotions({ className, emotions, numEmotions }: TopEmotionsPro
               <span>{emotion.score.toFixed(3)}</span>
             </div>
           </div>
-        ))}
+        ))
+      }
+      { getActionMessage() }
     </div>
   );
 }
