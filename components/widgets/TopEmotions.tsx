@@ -38,7 +38,7 @@ export function TopEmotions({ className, emotions, numEmotions }: TopEmotionsPro
     .reduce(
       (acc, emotion) => acc - emotion.score, 0
     );
-  const val = Math.round((pos_metric + neg_metric) * 100 * 100).toFixed(2) / 100;
+  const val = (pos_metric + neg_metric) * 100 * 100 / 100;
   // console.log(val);
 
   const getActionMessage = () => {
