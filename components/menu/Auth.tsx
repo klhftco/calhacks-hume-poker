@@ -47,7 +47,8 @@ function Auth({ children }: AuthProps) {
   }, [key, env]);
 
   function authenticate(key: string): void {
-    setKey(key);
+    const apiKey = process.env.NEXT_PUBLIC_HUME_API_KEY; // really bad practice but need to rewrite backend for proper async fetching of process.env any non public key
+    setKey(apiKey);
     setAuth((oldAuth) => ({ ...oldAuth, key: key }));
   }
 
