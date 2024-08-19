@@ -326,23 +326,23 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
       <div className="pt-6">
         <form id="openai-form">
           <h1>Your current hand:</h1>
-          <input class="border-solid" type="text" id="card1" name="card1" placeholder="Your 1st card..." required />
-          <input class="border-solid" type="text" id="card2" name="card2" placeholder="Your 2nd card..." required />
+          <input className="border-solid" type="text" id="card1" name="card1" placeholder="Your 1st card..." required />
+          <input className="border-solid" type="text" id="card2" name="card2" placeholder="Your 2nd card..." required />
           <br></br>
           <br></br>
           <h1>What's on the river:</h1>
-          <input class="border-solid" type="text" id="river1" name="river1" placeholder="1st river..." />
-          <input class="border-solid" type="text" id="river2" name="river2" placeholder="2nd river..." />
-          <input class="border-solid" type="text" id="river3" name="river3" placeholder="3rd river..." />
-          <input class="border-solid" type="text" id="river4" name="river4" placeholder="4th river..." />
-          <input class="border-solid" type="text" id="river5" name="river5" placeholder="5th river..." />
+          <input className="border-solid" type="text" id="river1" name="river1" placeholder="1st river..." />
+          <input className="border-solid" type="text" id="river2" name="river2" placeholder="2nd river..." />
+          <input className="border-solid" type="text" id="river3" name="river3" placeholder="3rd river..." />
+          <input className="border-solid" type="text" id="river4" name="river4" placeholder="4th river..." />
+          <input className="border-solid" type="text" id="river5" name="river5" placeholder="5th river..." />
           <br></br>
           <br></br>
           <h1>What's the pot size / how many players are in:</h1>
-          <input class="border-solid" type="text" id="pot_size" name="pot_size" placeholder="Pot size..." required />
-          <input class="border-solid" type="text" id="num_player" name="num_player" placeholder="Number of players..." required />
+          <input className="border-solid" type="text" id="pot_size" name="pot_size" placeholder="Pot size..." required />
+          <input className="border-solid" type="text" id="num_player" name="num_player" placeholder="Number of players..." required />
 
-          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5">
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5">
           Ask GPT
           </button>
         </form>
