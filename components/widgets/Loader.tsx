@@ -7,6 +7,7 @@ type LoaderProps = {
   emotions: Emotion[];
   emotionName: EmotionName;
   numLevels: number;
+  col: string;
 };
 
 export function Loader({ className, emotions, emotionName, numLevels, col }: LoaderProps) {
