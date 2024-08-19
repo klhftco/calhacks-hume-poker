@@ -15,7 +15,7 @@ export function LoaderSet({ className, emotions, emotionNames, numLevels }: Load
   return (
     <div className={`${className}`}>
       {emotionNames.map((emotionName, i) => (
-        <Loader key={i} emotions={emotions} emotionName={emotionName} numLevels={numLevels} />
+        <Loader key={i} emotions={emotions} emotionName={emotionName} numLevels={numLevels} col={ i > 3 ? "neutral" : "neutral" }/>
       ))}
     </div>
   );

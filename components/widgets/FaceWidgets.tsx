@@ -12,6 +12,7 @@ import { TrackedFace } from "../../lib/data/trackedFace";
 import { VideoRecorder } from "../../lib/media/videoRecorder";
 import { blobToBase64 } from "../../lib/utilities/blobUtilities";
 import { getApiUrlWs } from "../../lib/utilities/environmentUtilities";
+import OpenAI from "openai";
 
 type FaceWidgetsProps = {
   onCalibrate: Optional<(emotions: Emotion[]) => void>;
@@ -32,14 +33,23 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
   const maxReconnects = 3;
   const loaderNames: EmotionName[] = [
     "Calmness",
-    "Joy",
-    "Amusement",
-    "Anger",
-    "Confusion",
-    "Disgust",
+    "Concentration",
+    "Contemplation",
+    "Boredom",
+    "Disappointment",
+    "Contempt",
     "Sadness",
-    "Horror",
-    "Surprise (negative)",
+    "Distress",
+    "Anxiety"
+    // "Calmness",
+    // "Joy",
+    // "Amusement",
+    // "Anger",
+    // "Confusion",
+    // "Disgust",
+    // "Sadness",
+    // "Horror",
+    // "Surprise (negative)",
   ];
 
   useEffect(() => {
@@ -88,7 +98,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
   }
 
 
-  // TODO: might need to modify onMessage to pass onto poker api call 
+  // TODO: might need to modify onMessage to pass onto poker api call
   async function socketOnMessage(event: MessageEvent) {
     setStatus("");
     const response = JSON.parse(event.data);
@@ -229,6 +239,64 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
     }
   }
 
+  const openai = ; // INSERT KEY 
+  async function handleSubmit(event: Event) {
+    event.preventDefault();
+
+    const riv1 = document.getElementById("river1") as HTMLInputElement;
+    const riv2 = document.getElementById("river2") as HTMLInputElement;
+    const riv3 = document.getElementById("river3") as HTMLInputElement;
+    const riv4 = document.getElementById("river4") as HTMLInputElement;
+    const riv5 = document.getElementById("river5") as HTMLInputElement;
+    const card1 = document.getElementById("card1") as HTMLInputElement;
+    const card2 = document.getElementById("card2") as HTMLInputElement;
+    const pot = document.getElementById("pot_size") as HTMLInputElement;
+    const play = document.getElementById("num_player") as HTMLInputElement;
+
+    let userInput = "I'm playing poker and my hand is " + card1.value + " and " + card2.value
+      + ". There are currently " + play.value + " players in the pot, which is worth " + pot.value + ". ";
+    if (riv3 && riv3.value) { // flop
+      userInput = userInput.concat("The flop revealed a "
+        + riv1.value + ", " + riv2.value + ", " + riv3.value + ". ");
+    }
+    if (riv4 && riv4.value) { // turn
+      userInput = userInput.concat("The turn revealed a "
+      + ", " + riv4.value + ". ");
+    }
+    if (riv5 && riv5.value) { // river
+      userInput = userInput.concat("The river revealed a "
+        + ", " + riv5.value + ". ");
+    }
+    userInput = userInput.concat("What action would you recommend performing? If raise, by how much should I raise?");
+    console.log(userInput);
+
+    // Disable the button to prevent multiple submissions
+    const submitButton = document.querySelector("button[type=submit]") as HTMLButtonElement;
+    submitButton.disabled = true;
+    console.log("Button clicked");
+
+    try {
+      const completion = await openai.chat.completions.create({
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          { role: "user", content: userInput }
+        ],
+        model: "gpt-4"
+      });
+
+      const responseDiv = document.getElementById("response");
+      if (responseDiv) {
+        responseDiv.textContent = completion.choices[0].message?.content ?? "No response";
+      }
+    } catch (error) {
+      console.error("Error fetching the completion:", error);
+    } finally {
+      // Re-enable the button after the request is complete
+      submitButton.disabled = false;
+    }
+  }
+  document.getElementById("openai-form")?.addEventListener("submit", handleSubmit);
+
   return (
     <div>
       <div className="md:flex">
@@ -254,6 +322,31 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
       </div>
 
       <div className="pt-6">{status}</div>
+      <div className="pt-6">
+        <form id="openai-form">
+          <h1>Your current hand:</h1>
+          <input class="border-solid" type="text" id="card1" name="card1" placeholder="Your 1st card..." required />
+          <input class="border-solid" type="text" id="card2" name="card2" placeholder="Your 2nd card..." required />
+          <br></br>
+          <br></br>
+          <h1>What's on the river:</h1>
+          <input class="border-solid" type="text" id="river1" name="river1" placeholder="1st river..." />
+          <input class="border-solid" type="text" id="river2" name="river2" placeholder="2nd river..." />
+          <input class="border-solid" type="text" id="river3" name="river3" placeholder="3rd river..." />
+          <input class="border-solid" type="text" id="river4" name="river4" placeholder="4th river..." />
+          <input class="border-solid" type="text" id="river5" name="river5" placeholder="5th river..." />
+          <br></br>
+          <br></br>
+          <h1>What's the pot size / how many players are in:</h1>
+          <input class="border-solid" type="text" id="pot_size" name="pot_size" placeholder="Pot size..." required />
+          <input class="border-solid" type="text" id="num_player" name="num_player" placeholder="Number of players..." required />
+
+          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-5">
+          Ask GPT
+          </button>
+        </form>
+        <div id="response"></div>
+      </div>
       <canvas className="hidden" ref={photoRef}></canvas>
     </div>
   );

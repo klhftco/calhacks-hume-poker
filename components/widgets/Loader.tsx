@@ -9,7 +9,7 @@ type LoaderProps = {
   numLevels: number;
 };
 
-export function Loader({ className, emotions, emotionName, numLevels }: LoaderProps) {
+export function Loader({ className, emotions, emotionName, numLevels, col }: LoaderProps) {
   className = className || "";
 
   if (emotions.length === 0) {
@@ -54,7 +54,7 @@ export function Loader({ className, emotions, emotionName, numLevels }: LoaderPr
     <div className={`flex items-center ${className}`}>
       <div className="flex">
         {indicators.map((indicator, i) => {
-          const color = indicator ? "bg-neutral-800" : "bg-neutral-400";
+          const color = indicator ? `bg-${col}-800` : `bg-${col}-400`;
           return (
             <div
               key={i}

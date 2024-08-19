@@ -10,26 +10,53 @@ export function TopEmotions({ className, emotions, numEmotions }: TopEmotionsPro
   className = className || "";
 
   // TODO: testing
-  console.log(emotions.slice(0, numEmotions));
-  const metric_emotions = ["Confusion", "Boredom", "Sadness", "Disappointment", "Concentration"];
-  const metric = emotions
+  // console.log(emotions.slice(0, numEmotions));
+  const pos_emotions = [
+    "Calmness",
+    "Concentration",
+    "Contemplation",
+    "Boredom"
+  ];
+  const neg_emotions = [
+    "Disappointment",
+    "Contempt",
+    "Sadness",
+    "Distress",
+    "Anxiety"
+  ];
+  const pos_metric = emotions
+  // .sort((a: Emotion, b: Emotion) => b.score - a.score)
+  // .slice(0, numEmotions)
+  .filter(emotion => pos_emotions.includes(emotion.name))
+  .reduce(
+    (acc, emotion) => acc + emotion.score, 0
+  );
+  const neg_metric = emotions
     // .sort((a: Emotion, b: Emotion) => b.score - a.score)
     // .slice(0, numEmotions)
-    .filter(emotion => metric_emotions.includes(emotion.name))
+    .filter(emotion => neg_emotions.includes(emotion.name))
     .reduce(
-      (acc, emotion) => acc + emotion.score, 0
+      (acc, emotion) => acc - emotion.score, 0
     );
-  console.log(metric);
-  const val = (Math.round(metric * 100) / 100).toFixed(2);
+  const val = Math.round((pos_metric + neg_metric) * 100 * 100).toFixed(2) / 100;
+  // console.log(val);
 
   const getActionMessage = () => {
     // TODO: revise metric thresholds based on data analysis
-    if (metric > 2.5) {
-      return (<strong>Most likely action: RAISE -- Metric: {val}</strong>);
-    } else if (metric < -2.5) {
-      return (<strong>Most likely action: FOLD -- Metric: {val}</strong>);
+    if (val > 50) {
+      return (
+        <>
+          <strong>Metric: {val}<br></br></strong>
+          <strong>Great work, keep up your poker face. :|</strong>
+        </>
+      );
     } else {
-      return (<strong>Most likely action: CHECK -- Metric: {val}</strong>);
+      return (
+        <>
+          <strong>Metric: {val}<br></br></strong>
+          <strong>Calm down, you might be tilting!</strong>
+        </>
+      );
     }
   };
 
