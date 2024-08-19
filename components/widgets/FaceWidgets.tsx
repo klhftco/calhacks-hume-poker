@@ -239,7 +239,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
     }
   }
 
-  const openai = ""; // INSERT KEY 
+  const openai = ""; // INSERT KEY
   async function handleSubmit(event: Event) {
     event.preventDefault();
 
@@ -276,18 +276,19 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
     console.log("Button clicked");
 
     try {
-      const completion = await openai.chat.completions.create({
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: userInput }
-        ],
-        model: "gpt-4"
-      });
+      const completion = true;
+      // const completion = await openai.chat.completions.create({
+      //   messages: [
+      //     { role: "system", content: "You are a helpful assistant." },
+      //     { role: "user", content: userInput }
+      //   ],
+      //   model: "gpt-4"
+      // });
 
       const responseDiv = document.getElementById("response");
-      if (responseDiv) {
-        responseDiv.textContent = completion.choices[0].message?.content ?? "No response";
-      }
+      // if (responseDiv) {
+      //   responseDiv.textContent = completion.choices[0].message?.content ?? "No response";
+      // }
     } catch (error) {
       console.error("Error fetching the completion:", error);
     } finally {
