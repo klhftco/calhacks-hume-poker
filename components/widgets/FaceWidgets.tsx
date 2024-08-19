@@ -239,7 +239,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
     }
   }
 
-  const openai = ; // INSERT KEY 
+  // const openai = ; // INSERT KEY 
   async function handleSubmit(event: Event) {
     event.preventDefault();
 
