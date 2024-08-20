@@ -322,6 +322,7 @@ export function FaceWidgets({ onCalibrate }: FaceWidgetsProps) {
         )}
       </div>
 
+      <div className="pt-6">NOTE: currently GPT querying is disconnected (sorry!)</div>
       <div className="pt-6">{status}</div>
       <div className="pt-6">
         <form id="openai-form">
